@@ -4,8 +4,8 @@
  * @authorLink url
  * @donate https://paypal.me/flomka?locale.x=ru_RU
  * @patreon patreon-url
- * @website github-url
- * @source url
+ * @website https://github.com/FFLomka/BetterDiscordAddons
+ * @source https://raw.githubusercontent.com/FFLomka/BetterDiscordAddons/master/Plugins/BetterPiP/BetterPiP.plugin.js
  */
 
 class BetterPiP {
@@ -18,7 +18,7 @@ class BetterPiP {
 	getName() { return "BetterPiP"; }
 	getShortName() { return "BetterPiP"; }
 	getDescription() { return "This is an example/template for a BD plugin."; }
-	getVersion() { return "0.1.2"; }
+	getVersion() { return "0.1.3"; }
 	getAuthor() { return "FLomka"; }
 
 	getSettingsPanel() {
