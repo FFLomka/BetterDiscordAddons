@@ -13,23 +13,54 @@ class BetterPiP {
 	constructor() {
 		this.EnablePiP = true
 		this.initialized = false
+		this.hoveren = false
+		this.sizeOfPiP = 'default'
+		this.size = {
+			"small":[160,90],
+			"default":[320,180],
+			"big":[640,360],
+			"omg":[1280,720]
+		}
 	}
 
 	getName() { return "BetterPiP"; }
 	getShortName() { return "BetterPiP"; }
 	getDescription() { return "This is an example/template for a BD plugin."; }
-	getVersion() { return "0.1.3"; }
+	getVersion() { return "0.1.4"; }
 	getAuthor() { return "FLomka"; }
 
 	getSettingsPanel() {
-
-
-		return "ээ фсс!! вышел отсюда"
+		return `<!DOCTYPE html><html lang="en">
+			<head>
+			<style>
+				body {
+				}
+				h1 {
+				}
+			</style>
+			</head>
+			<body>
+			<div>
+				<h1>Change Size of PiP</h1>
+				<select name="size" id="sizePiP">
+					<option ${this.sizeOfPiP == 'small' ? 'selected' : ''} value="small">Small</option>
+					<option ${this.sizeOfPiP == 'default' ? 'selected' : ''} value="default">Default</option>
+					<option ${this.sizeOfPiP == 'big' ? 'selected' : ''} value="big">Big</option>
+					<option ${this.sizeOfPiP == 'omg' ? 'selected' : ''} value="omg">OMG</option>
+				</select> 
+			</div>
+			</body>
+		</html>
+		`
 	}
 
 	load() { }
 
 	unload() { }
+
+	resizePiP() {
+		this.sizeOfPiP = document.querySelector('#sizePiP').options[document.getElementById("sizePiP").options.selectedIndex].value
+	}
 
 	changePiP() {
 		this.EnablePiP = !this.EnablePiP
@@ -42,7 +73,6 @@ class BetterPiP {
 			document.querySelector(".pictureInPicture-3VocJq").style.display = ''
 			element.style.background = '#43b581'
 		}
-		console.log(this.EnablePiP)
 	}
 
 	start() {
@@ -57,8 +87,24 @@ class BetterPiP {
 			if (document.querySelector('.pictureInPictureWindow-1B5qSe') != null && document.querySelector('.buttonInPiP') == null) {
 				this.editPiP()
 			}
-		}, 1000)
-	}
+			if (document.querySelector('#sizePiP') != null) {
+				document.querySelector('#sizePiP').addEventListener('change', this.resizePiP.bind(this))
+			}
+			if (document.querySelector('.pictureInPictureVideo-2v4f7E') != null && document.querySelector('.pictureInPictureVideo-2v4f7E').style.background != '#000002' && !this.hoveren) {
+				let picture = document.querySelector('.pictureInPictureVideo-2v4f7E')
+				picture.style.width = this.size[this.sizeOfPiP][0] + 'px'
+				picture.style.height = this.size[this.sizeOfPiP][1] + 'px'
+				picture.style.background = '#000002'
+			}
+			if (document.querySelector('.pictureInPictureVideo-2v4f7E') != null && document.querySelector('.pictureInPictureVideo-2v4f7E').style.background != '#000001' && this.hoveren) {
+				let picture = document.querySelector('.pictureInPictureVideo-2v4f7E')
+				picture.addEventListener('mouseenter', this.inMoverPiP.bind(this))
+				picture.addEventListener('mouseout', this.outMoverPiP.bind(this))
+				picture.style.background = '#000001'
+			}
+		}, 725)
+	}//.pictureInPictureVideo-2v4f7E
+
 
 	stop() {
 		document.querySelector(".pictureInPicture-3VocJq").style.display = ''
@@ -73,7 +119,7 @@ class BetterPiP {
 		let button = document.createElement('button')
 		button.setAttribute('aria-label', 'On/Off PiP')
 		// button.addEventListener('click', this.changePiP)
-		button.onclick = this.changePiP
+		button.onclick = this.changePiP.bind(this)
 		button.style.width = '24px'
 		button.style.height = '24px'
 		button.style.borderRadius = '50%'
