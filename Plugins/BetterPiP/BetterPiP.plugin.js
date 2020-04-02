@@ -46,6 +46,9 @@ class BetterPiP {
 	}
 
 	start() {
+		if (!global.ZeresPluginLibrary) return window.BdApi.alert("Library Missing",`The library plugin needed for ${this.getName()} is missing.<br /><br /> <a href="https://betterdiscord.net/ghdl?url=https://raw.githubusercontent.com/rauenzi/BDPluginLibrary/master/release/0PluginLibrary.plugin.js" target="_blank">Click here to download the library!</a>`)
+        ZLibrary.PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), "https://raw.githubusercontent.com/FFLomka/BetterDiscordAddons/master/Plugins/BetterPiP/BetterPiP.plugin.js")
+		
 		this.initialize()
 		this.intervals = setInterval(() => {
 			if (document.querySelector('.wrapper-KXM2i0') != null && document.querySelector('.buttonPiP') == null) {
